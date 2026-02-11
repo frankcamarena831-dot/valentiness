@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Epiphany 💖</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom right, #ff9ecf, #ff4f81);
+        text-align: center;
+        color: white;
+        overflow-x: hidden;
+    }
+
+    h1 {
+        margin-top: 40px;
+        font-size: 3rem;
+    }
+
+    h2 {
+        font-weight: normal;
+    }
+
+    #countdown {
+        font-size: 1.5rem;
+        margin: 20px 0;
+    }
+
+    .buttons {
+        position: relative;
+        height: 200px;
+        margin-top: 30px;
+    }
+
+    button {
+        padding: 15px 35px;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        position: absolute;
+        font-weight: bold;
+        transition: 0.2s;
+    }
+
+    #yesBtn {
+        background-color: #ff2e63;
+        color: white;
+        left: 40%;
+        top: 100px;
+    }
+
+    #noBtn {
+        background-color: white;
+        color: #ff2e63;
+        left: 55%;
+        top: 100px;
+    }
+
+    .cats {
+        margin-top: 50px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding-bottom: 50px;
+    }
+
+    .cats img {
+        width: 180px;
+        border-radius: 20px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        transition: transform 0.3s;
+    }
+
+    .cats img:hover {
+        transform: scale(1.1);
+    }
+
+    .heart {
+        position: fixed;
+        font-size: 24px;
+        animation: float 3s linear infinite;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0); opacity: 1; }
+        100% { transform: translateY(-200px); opacity: 0; }
+    }
+</style>
+</head>
+<body>
+
+<h1>Epiphany 💘</h1>
+<h2>Will you be my Valentine? 💖</h2>
+
+<div id="countdown"></div>
+
+<div class="buttons">
+    <button id="yesBtn">Yes 💕</button>
+    <button id="noBtn">No 😢</button>
+</div>
+
+<div class="cats">
+    <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131" alt="Cute Cat">
+    <img src="https://images.unsplash.com/photo-1533743983669-94fa5c4338ec" alt="Cute Cat">
+    <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006" alt="Cute Cat">
+    <img src="https://images.unsplash.com/photo-1595433562696-28b1e6c8c63b" alt="Cute Cat">
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+
+// Countdown to next Valentine's Day
+function updateCountdown() {
+    const now = new Date();
+    let year = now.getFullYear();
+    let valentines = new Date(year, 1, 14);
+
+    if (now > valentines) {
+        valentines = new Date(year + 1, 1, 14);
+    }
+
+    const diff = valentines - now;
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("countdown").innerHTML =
+        `💖 ${days}d ${hours}h ${minutes}m ${seconds}s until Valentine's Day 💖`;
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// Make NO button run away when mouse gets close
+document.addEventListener("mousemove", (e) => {
+    const rect = noBtn.getBoundingClientRect();
+    const distance = Math.hypot(
+        e.clientX - (rect.left + rect.width / 2),
+        e.clientY - (rect.top + rect.height / 2)
+    );
+
+    if (distance < 100) {
+        const maxX = window.innerWidth - noBtn.offsetWidth;
+        const maxY = window.innerHeight - noBtn.offsetHeight;
+
+        noBtn.style.left = Math.random() * maxX + "px";
+        noBtn.style.top = Math.random() * maxY + "px";
+    }
+});
+
+// YES button celebration
+yesBtn.addEventListener("click", () => {
+    document.body.innerHTML = `
+        <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;background:#ff4f81;color:white;text-align:center;">
+            <h1>YAY EPIPHANY!!! 💕🥰</h1>
+            <h2>You just made me the happiest person alive ❤️</h2>
+            <h3>I love you so much 💖</h3>
+        </div>
+    `;
+    createHearts();
+});
+
+function createHearts() {
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.bottom = "0px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 3000);
+    }, 200);
+}
+</script>
+
+</body>
+</html>
